@@ -1,22 +1,34 @@
 package com.example.project;
 
 public class ListTester {
-    public static <T> void circularLeftShift(List <T> list, int n)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-        // Write the method circularLeftShift, user of List ADT, that takes as input a non-empty
-        // List list and an integer n > 0 and performs n circular left shift of the list.
-        // Example 2.1. Given the list l : A, B, C, D, E, circularShiftLeft(l, 1) results in
-        // B, C, D, E, A, circularShiftLeft(l, 2) results in C, D, E, A, B.
+  public static <T> void circularLeftShift(List<T> list, int n) {
+    if (list == null || list.isEmpty() || n <= 0) {
+        return; // No shift needed if the list is empty or n is non-positive
     }
-    public static <T> void reverseCopy(DLL<T> l1, DLL<T> l2)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-        // Write the method reverseCopy, user of DoubleLinkedList, which copies the elements
-        // of l1 to l2 in reverse order. The list l1 must not change. Assume that l2 is empty.
-        // The method signature is public static <T> void reverseCopy(DoubleLinkedList<T> l1,
-        // DoubleLinkedList<T> l2).
-        // Example 4.1. If l1 : A ↔ B ↔ C ↔ D, then calling reverseCopy(l1, l2) results in
-        // l2 : D ↔ C ↔ B ↔ A.
+
+    int size = list.size();
+    n = n % size; // To handle cases where n > size
+
+    // Perform the shift by rearranging elements
+    List<T> temp = new ArrayList<>(list.subList(n, size)); // Elements from index n to end
+    temp.addAll(list.subList(0, n)); // Elements from start to index n-1
+    list.clear();
+    list.addAll(temp);
+}
+
+  public static <T> void reverseCopy(DLL<T> l1, DLL<T> l2) {
+    if (l1.head == null) {
+        return; // If l1 is empty, there's nothing to copy
     }
+
+    // Start from the tail of l1 to copy in reverse
+    Node<T> current = l1.tail;
+
+    while (current != null) {
+        // Add each element from l1's tail to l2's head
+        l2.add(current.data);
+        current = current.prev;
+    }
+}
+
 }
